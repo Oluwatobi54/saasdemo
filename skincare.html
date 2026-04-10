@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lumière — Skincare Rooted in Science</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'serif'],
+            heading: ['"Playfair Display"', 'serif'],
+            sans: ['Jost', 'sans-serif'],
+          },
+          colors: {
+            cream: '#faf7f2',
+            parchment: '#f2ece0',
+            warm: '#e8ddd0',
+            terracotta: '#c17a5a',
+            'terra-light': '#d4957a',
+            'terra-dark': '#9a5e42',
+            sage: '#8a9e8a',
+            'sage-light': '#b5c4b5',
+            bark: '#5c4a3a',
+            dusk: '#3a2e26',
+            mist: '#f7f4ef',
+          },
+          animation: {
+            'fade-up': 'fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards',
+            'fade-in': 'fadeIn 1s ease forwards',
+            'scan-line': 'scanLine 2s ease-in-out infinite',
+            'pulse-ring': 'pulseRing 2s ease-out infinite',
+            'shimmer': 'shimmer 2s linear infinite',
+            'float-petal': 'floatPetal 8s ease-in-out infinite',
+            'spin-slow': 'spin 12s linear infinite',
+            'bar-fill': 'barFill 1.2s cubic-bezier(0.16,1,0.3,1) forwards',
+          },
+          keyframes: {
+            fadeUp: { '0%': { opacity:0, transform:'translateY(32px)' }, '100%': { opacity:1, transform:'translateY(0)' } },
+            fadeIn: { '0%': { opacity:0 }, '100%': { opacity:1 } },
+            scanLine: { '0%': { top:'5%', opacity:1 }, '50%': { top:'90%', opacity:0.6 }, '100%': { top:'5%', opacity:1 } },
+            pulseRing: { '0%': { transform:'scale(0.9)', opacity:0.7 }, '70%': { transform:'scale(1.15)', opacity:0 }, '100%': { transform:'scale(0.9)', opacity:0 } },
+            shimmer: { '0%': { backgroundPosition:'-200% center' }, '100%': { backgroundPosition:'200% center' } },
+            floatPetal: { '0%,100%': { transform:'translateY(0) rotate(0deg)' }, '33%': { transform:'translateY(-18px) rotate(6deg)' }, '66%': { transform:'translateY(-8px) rotate(-4deg)' } },
+            barFill: { '0%': { width:'0%' }, '100%': { width:'var(--fill)' } },
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    html { scroll-behavior: smooth; }
+    body { background: #faf7f2; color: #3a2e26; font-family: 'Jost', sans-serif; overflow-x: hidden; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #faf7f2; }
+    ::-webkit-scrollbar-thumb { background: #c17a5a; border-radius: 2px; }
+
+    /* Reveal */
+    .reveal { opacity:0; transform:translateY(28px); transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-delay-1 { transition-delay:0.12s; }
+    .reveal-delay-2 { transition-delay:0.24s; }
+    .reveal-delay-3 { transition-delay:0.36s; }
+    .reveal-delay-4 { transition-delay:0.48s; }
+
+    /* Grain overlay */
+    body::after {
+      content:'';
+      position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events:none; z-index:9999; opacity:0.6;
+    }
+
+    /* Decorative circle bg */
+    .circle-deco { position:absolute; border-radius:50%; pointer-events:none; }
+
+    /* Button styles */
+    .btn-terra {
+      display:inline-flex; align-items:center; gap:8px;
+      background: linear-gradient(135deg, #c17a5a, #d4957a);
+      color:#faf7f2; font-family:'Jost',sans-serif; font-size:13px;
+      font-weight:600; padding:14px 32px; border-radius:100px;
+      letter-spacing:0.1em; text-transform:uppercase;
+      transition: all 0.3s ease; cursor:pointer; border:none;
+    }
+    .btn-terra:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(193,122,90,0.35); background:linear-gradient(135deg,#9a5e42,#c17a5a); }
+
+    .btn-outline {
+      display:inline-flex; align-items:center; gap:8px;
+      background:transparent; color:#5c4a3a;
+      font-family:'Jost',sans-serif; font-size:13px; font-weight:600;
+      padding:13px 32px; border-radius:100px; border:1.5px solid #c17a5a;
+      letter-spacing:0.1em; text-transform:uppercase;
+      transition: all 0.3s ease; cursor:pointer;
+    }
+    .btn-outline:hover { background:#c17a5a; color:#faf7f2; transform:translateY(-2px); }
+
+    /* Section tag */
+    .tag {
+      display:inline-flex; align-items:center; gap:6px;
+      font-family:'Jost',sans-serif; font-size:11px; font-weight:600;
+      letter-spacing:0.2em; text-transform:uppercase; color:#c17a5a;
+      padding:5px 14px; border:1px solid rgba(193,122,90,0.3);
+      border-radius:100px; background:rgba(193,122,90,0.06);
+    }
+
+    /* Card hover */
+    .card-lift { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease; }
+    .card-lift:hover { transform:translateY(-6px); box-shadow:0 20px 60px rgba(92,74,58,0.12); }
+
+    /* Scanner UI */
+    #scannerBox {
+      border: 2px solid rgba(193,122,90,0.4);
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+    #scanLine {
+      position:absolute; left:0; right:0; height:2px;
+      background: linear-gradient(90deg, transparent, rgba(193,122,90,0.9), transparent);
+      animation: scanLine 2s ease-in-out infinite;
+      z-index:5;
+    }
+    .corner-tl, .corner-tr, .corner-bl, .corner-br {
+      position:absolute; width:20px; height:20px; z-index:6;
+    }
+    .corner-tl { top:12px; left:12px; border-top:2.5px solid #c17a5a; border-left:2.5px solid #c17a5a; border-radius:4px 0 0 0; }
+    .corner-tr { top:12px; right:12px; border-top:2.5px solid #c17a5a; border-right:2.5px solid #c17a5a; border-radius:0 4px 0 0; }
+    .corner-bl { bottom:12px; left:12px; border-bottom:2.5px solid #c17a5a; border-left:2.5px solid #c17a5a; border-radius:0 0 0 4px; }
+    .corner-br { bottom:12px; right:12px; border-bottom:2.5px solid #c17a5a; border-right:2.5px solid #c17a5a; border-radius:0 0 4px 0; }
+
+    /* Analysis bars */
+    .bar-track { background:#e8ddd0; border-radius:100px; height:7px; overflow:hidden; }
+    .bar-fill-el { height:100%; border-radius:100px; background:linear-gradient(90deg,#c17a5a,#d4957a); width:0; }
+
+    /* Product card */
+    .product-card {
+      background:#fff;
+      border:1px solid rgba(92,74,58,0.1);
+      border-radius:20px; overflow:hidden;
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .product-card:hover { transform:translateY(-8px); box-shadow:0 24px 60px rgba(92,74,58,0.14); border-color:rgba(193,122,90,0.3); }
+
+    /* Marquee */
+    .marquee-track { display:flex; width:max-content; animation:marquee 22s linear infinite; }
+    @keyframes marquee { 0% { transform:translateX(0) } 100% { transform:translateX(-50%) } }
+
+    /* Nav */
+    nav { transition: background 0.3s ease, box-shadow 0.3s ease; }
+    nav.scrolled { background:rgba(250,247,242,0.95); backdrop-filter:blur(16px); box-shadow:0 1px 0 rgba(92,74,58,0.1); }
+
+    /* Hero gradient text */
+    .terra-text {
+      background: linear-gradient(135deg, #c17a5a 0%, #d4957a 50%, #9a5e42 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    }
+
+    /* Petal decorations */
+    .petal {
+      position:absolute; width:120px; height:120px; opacity:0.06;
+      background: radial-gradient(ellipse 60% 80% at 50% 50%, #c17a5a, transparent);
+      border-radius:60% 40% 60% 40% / 40% 60% 40% 60%;
+    }
+
+    /* Skin type badge */
+    .skin-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 20px; border-radius:100px;
+      background:linear-gradient(135deg, #c17a5a, #d4957a);
+      color:white; font-family:'Jost',sans-serif;
+      font-size:14px; font-weight:600; letter-spacing:0.05em;
+    }
+
+    /* Step indicator */
+    .step-dot { transition: all 0.3s ease; }
+
+    /* Scanning overlay animation */
+    @keyframes analyzing {
+      0%,100% { opacity:1 }
+      50% { opacity:0.4 }
+    }
+    .analyzing-pulse { animation: analyzing 1s ease-in-out infinite; }
+
+    /* Modal overlay */
+    .modal-overlay {
+      position:fixed; inset:0;
+      background:rgba(58,46,38,0.6);
+      backdrop-filter:blur(8px);
+      z-index:1000;
+      display:flex; align-items:center; justify-content:center; padding:20px;
+    }
+    .modal-box {
+      background:#faf7f2;
+      border-radius:24px;
+      max-width:900px; width:100%;
+      max-height:90vh;
+      overflow-y:auto;
+      position:relative;
+    }
+
+    input[type=range] { -webkit-appearance:none; appearance:none; width:100%; height:4px; border-radius:2px; background:#e8ddd0; outline:none; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:#c17a5a; cursor:pointer; box-shadow:0 2px 8px rgba(193,122,90,0.4); }
+
+    #video { transform:scaleX(-1); }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== NAV ===== -->
+  <nav id="mainNav" class="fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 h-18 flex items-center justify-between py-5">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-terracotta flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C8 2 4 6 4 10c0 5 4 9 8 12 4-3 8-7 8-12 0-4-4-8-8-8z" fill="white"/><circle cx="12" cy="10" r="3" fill="rgba(255,255,255,0.5)"/></svg>
+        </div>
+        <span class="font-display text-2xl font-500 text-dusk tracking-wide">Lumière</span>
+      </a>
+
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#about" class="font-sans text-sm text-bark/70 hover:text-terracotta transition-colors tracking-wide">About</a>
+        <a href="#scanner" class="font-sans text-sm text-bark/70 hover:text-terracotta transition-colors tracking-wide">Skin Scan</a>
+        <a href="#products" class="font-sans text-sm text-bark/70 hover:text-terracotta transition-colors tracking-wide">Products</a>
+        <a href="#ingredients" class="font-sans text-sm text-bark/70 hover:text-terracotta transition-colors tracking-wide">Ingredients</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="#scanner" class="hidden md:inline-flex btn-terra text-xs py-3 px-6">Scan My Skin</a>
+        <button id="mobileMenuBtn" class="md:hidden text-bark p-2">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-cream/95 backdrop-blur border-t border-warm px-6 py-4 flex flex-col gap-3">
+      <a href="#about" class="font-sans text-sm text-bark py-2 border-b border-warm/60" onclick="closeMobileNav()">About</a>
+      <a href="#scanner" class="font-sans text-sm text-bark py-2 border-b border-warm/60" onclick="closeMobileNav()">Skin Scan</a>
+      <a href="#products" class="font-sans text-sm text-bark py-2 border-b border-warm/60" onclick="closeMobileNav()">Products</a>
+      <a href="#ingredients" class="font-sans text-sm text-bark py-2" onclick="closeMobileNav()">Ingredients</a>
+      <a href="#scanner" class="btn-terra mt-2 justify-center" onclick="closeMobileNav()">Scan My Skin</a>
+    </div>
+  </nav>
+
+
+  <!-- ===== HERO ===== -->
+  <section class="relative min-h-screen flex items-center overflow-hidden bg-cream pt-20">
+    <!-- Background decorations -->
+    <div class="circle-deco w-[700px] h-[700px] bg-terracotta/5 -top-40 -right-60"></div>
+    <div class="circle-deco w-[400px] h-[400px] bg-sage/10 bottom-0 -left-40"></div>
+    <div class="petal animate-float-petal top-1/4 right-1/4" style="animation-delay:0s"></div>
+    <div class="petal animate-float-petal top-2/3 left-1/3" style="animation-delay:3s; transform:rotate(45deg); width:80px; height:80px;"></div>
+    <div class="petal animate-float-petal top-1/2 right-1/3" style="animation-delay:1.5s; width:60px; height:90px;"></div>
+
+    <!-- Botanical SVG illustration right side -->
+    <div class="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:flex items-center justify-center opacity-20 pointer-events-none">
+      <svg viewBox="0 0 500 600" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="250" cy="500" rx="2" ry="180" fill="#c17a5a"/>
+        <path d="M250 400 Q180 340 120 300 Q180 310 250 380" fill="#8a9e8a" opacity="0.7"/>
+        <path d="M250 360 Q320 300 380 260 Q320 280 250 340" fill="#8a9e8a" opacity="0.6"/>
+        <path d="M250 300 Q160 240 100 180 Q170 200 250 280" fill="#8a9e8a" opacity="0.5"/>
+        <path d="M250 270 Q350 210 400 150 Q340 180 250 250" fill="#8a9e8a" opacity="0.5"/>
+        <path d="M250 200 Q200 160 160 100 Q210 130 250 180" fill="#c17a5a" opacity="0.4"/>
+        <ellipse cx="250" cy="90" rx="40" ry="55" fill="#c17a5a" opacity="0.5" transform="rotate(-10 250 90)"/>
+        <ellipse cx="228" cy="88" rx="25" ry="35" fill="#d4957a" opacity="0.4" transform="rotate(-20 228 88)"/>
+        <ellipse cx="272" cy="85" rx="22" ry="32" fill="#d4957a" opacity="0.3" transform="rotate(15 272 85)"/>
+        <circle cx="250" cy="95" r="8" fill="#c17a5a" opacity="0.6"/>
+      </svg>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-20">
+      <div class="max-w-2xl">
+        <div class="tag mb-8 animate-fade-up" style="animation-delay:0.1s">
+          <span class="w-1.5 h-1.5 rounded-full bg-terracotta inline-block"></span>
+          AI-Powered Skincare
+        </div>
+
+        <h1 class="font-display text-[clamp(3.2rem,7vw,6rem)] leading-[0.95] font-300 tracking-tight animate-fade-up" style="animation-delay:0.2s">
+          Your skin,<br/>
+          <em class="terra-text font-500">understood</em><br/>
+          deeply.
+        </h1>
+
+        <p class="font-sans text-bark/60 text-lg leading-relaxed mt-8 max-w-md animate-fade-up" style="animation-delay:0.35s">
+          Scan your skin in seconds. Our AI analyses your unique skin profile and curates a personalised routine from nature's finest botanicals.
+        </p>
+
+        <div class="flex flex-wrap gap-4 mt-10 animate-fade-up" style="animation-delay:0.5s">
+          <a href="#scanner" class="btn-terra">
+            Start Free Scan
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#products" class="btn-outline">Shop All</a>
+        </div>
+
+        <!-- Trust signals -->
+        <div class="flex items-center gap-6 mt-12 animate-fade-up" style="animation-delay:0.65s">
+          <div class="flex -space-x-2">
+            <div class="w-9 h-9 rounded-full bg-terracotta/20 border-2 border-cream flex items-center justify-center text-xs font-sans text-terracotta font-600">J</div>
+            <div class="w-9 h-9 rounded-full bg-sage/30 border-2 border-cream flex items-center justify-center text-xs font-sans text-sage font-600">A</div>
+            <div class="w-9 h-9 rounded-full bg-warm border-2 border-cream flex items-center justify-center text-xs font-sans text-bark font-600">M</div>
+            <div class="w-9 h-9 rounded-full bg-terracotta/15 border-2 border-cream flex items-center justify-center text-xs font-sans text-terracotta font-600">+</div>
+          </div>
+          <div>
+            <div class="font-sans font-600 text-sm text-bark">12,400+ skin profiles analysed</div>
+            <div class="font-sans text-xs text-bark/50 mt-0.5">★★★★★  4.9 average rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+      <div class="w-px h-10 bg-gradient-to-b from-terracotta/60 to-transparent animate-float-petal"></div>
+      <span class="font-sans text-[10px] text-bark/40 tracking-widest uppercase">Scroll</span>
+    </div>
+  </section>
+
+
+  <!-- ===== MARQUEE ===== -->
+  <div class="py-6 bg-terracotta overflow-hidden border-y border-terra-dark/20">
+    <div class="relative flex overflow-hidden">
+      <div class="marquee-track flex items-center gap-12 px-6 whitespace-nowrap">
+        <span class="font-display italic text-cream/80 text-lg font-300">Hyaluronic Acid</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Vitamin C Complex</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Retinol Renew</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Niacinamide Glow</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Bakuchiol Serum</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Ceramide Shield</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Peptide Lift</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Squalane Oil</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <!-- duplicate -->
+        <span class="font-display italic text-cream/80 text-lg font-300">Hyaluronic Acid</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Vitamin C Complex</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Retinol Renew</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Niacinamide Glow</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Bakuchiol Serum</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Ceramide Shield</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Peptide Lift</span>
+        <span class="text-cream/40 text-sm">✦</span>
+        <span class="font-display italic text-cream/80 text-lg font-300">Squalane Oil</span>
+        <span class="text-cream/40 text-sm">✦</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== SKIN SCANNER ===== -->
+  <section id="scanner" class="py-24 md:py-32 bg-parchment relative overflow-hidden">
+    <div class="circle-deco w-[500px] h-[500px] bg-sage/10 -top-20 -right-40"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="tag reveal">
+          <span class="w-1.5 h-1.5 rounded-full bg-terracotta"></span>
+          AI Skin Analysis
+        </span>
+        <h2 class="font-display text-[clamp(2.4rem,5vw,4rem)] font-400 leading-[1.05] mt-6 reveal reveal-delay-1">
+          Discover your<br/>
+          <em class="terra-text">skin story</em>
+        </h2>
+        <p class="font-sans text-bark/60 mt-5 text-base leading-relaxed reveal reveal-delay-2">
+          Position your face in the frame, capture a photo, and let our AI identify your skin type, concerns, and the perfect personalised routine.
+        </p>
+      </div>
+
+      <!-- Scanner widget -->
+      <div class="max-w-4xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-8 items-start">
+
+          <!-- Camera / Upload side -->
+          <div class="reveal">
+            <!-- Step indicator -->
+            <div class="flex items-center gap-3 mb-5">
+              <div id="step1Dot" class="step-dot w-7 h-7 rounded-full bg-terracotta flex items-center justify-center font-sans text-xs text-cream font-600">1</div>
+              <span class="font-sans text-sm text-bark font-500">Capture your skin</span>
+              <div class="flex-1 h-px bg-warm"></div>
+              <div id="step2Dot" class="step-dot w-7 h-7 rounded-full bg-warm flex items-center justify-center font-sans text-xs text-bark/50 font-600">2</div>
+              <span class="font-sans text-sm text-bark/40 font-500">Get results</span>
+            </div>
+
+            <!-- Scanner box -->
+            <div id="scannerBox" class="bg-dusk relative" style="aspect-ratio:3/4; min-height:360px;">
+              <div class="corner-tl"></div>
+              <div class="corner-tr"></div>
+              <div class="corner-bl"></div>
+              <div class="corner-br"></div>
+
+              <!-- Idle state -->
+              <div id="idleState" class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-cream/60">
+                <div class="w-20 h-20 rounded-full border-2 border-cream/20 flex items-center justify-center relative">
+                  <div class="absolute inset-0 rounded-full border-2 border-terracotta/40 animate-pulse-ring"></div>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M20.94 11A8.994 8.994 0 0012 3a8.994 8.994 0 00-8.94 8M12 21a8.994 8.994 0 008.94-8M3 13a8.994 8.994 0 008.94 8"/><path d="M2 12h2M20 12h2M12 2v2M12 20v2"/></svg>
+                </div>
+                <p class="font-sans text-sm text-center px-4 font-300">Align your face within the frame for best results</p>
+                <p class="font-sans text-xs text-cream/30 text-center px-4">Good lighting · Face forward · No glasses</p>
+              </div>
+
+              <!-- Video feed -->
+              <video id="video" class="absolute inset-0 w-full h-full object-cover hidden" autoplay playsinline muted></video>
+              <canvas id="canvas" class="absolute inset-0 w-full h-full object-cover hidden"></canvas>
+
+              <!-- Scan line (shows when camera active) -->
+              <div id="scanLine" class="hidden"></div>
+
+              <!-- Analyzing overlay -->
+              <div id="analyzingOverlay" class="absolute inset-0 bg-dusk/90 hidden flex-col items-center justify-center gap-4 z-10">
+                <div class="relative w-20 h-20">
+                  <svg class="animate-spin-slow w-20 h-20" viewBox="0 0 80 80">
+                    <circle cx="40" cy="40" r="36" fill="none" stroke="rgba(193,122,90,0.2)" stroke-width="3"/>
+                    <path d="M40 4 A36 36 0 0 1 76 40" fill="none" stroke="#c17a5a" stroke-width="3" stroke-linecap="round"/>
+                  </svg>
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c17a5a" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  </div>
+                </div>
+                <p class="font-sans text-cream text-sm analyzing-pulse font-300">Analysing your skin...</p>
+                <div class="flex gap-1.5">
+                  <div class="w-1.5 h-1.5 rounded-full bg-terracotta analyzing-pulse" style="animation-delay:0s"></div>
+                  <div class="w-1.5 h-1.5 rounded-full bg-terracotta analyzing-pulse" style="animation-delay:0.2s"></div>
+                  <div class="w-1.5 h-1.5 rounded-full bg-terracotta analyzing-pulse" style="animation-delay:0.4s"></div>
+                </div>
+              </div>
+
+              <!-- Captured image overlay indicator -->
+              <div id="capturedBadge" class="absolute top-3 left-1/2 -translate-x-1/2 hidden bg-terracotta text-cream text-xs font-sans font-600 px-3 py-1.5 rounded-full z-20">
+                ✓ Photo captured
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="mt-4 flex flex-col gap-3">
+              <div class="grid grid-cols-2 gap-3">
+                <button id="startCameraBtn" onclick="startCamera()" class="btn-terra text-xs py-3.5 justify-center">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                  Open Camera
+                </button>
+                <label class="btn-outline text-xs py-3.5 justify-center cursor-pointer">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Upload Photo
+                  <input type="file" id="uploadInput" accept="image/*" class="hidden" onchange="handleUpload(event)"/>
+                </label>
+              </div>
+              <button id="captureBtn" onclick="capturePhoto()" class="btn-terra py-3.5 justify-center text-xs hidden">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M20.94 11A8.994 8.994 0 0012 3a8.994 8.994 0 00-8.94 8M12 21a8.994 8.994 0 008.94-8"/></svg>
+                Capture & Analyse
+              </button>
+              <button id="retakeBtn" onclick="retake()" class="btn-outline py-3 justify-center text-xs hidden">
+                ↺ Retake
+              </button>
+            </div>
+
+            <!-- Skin tone selector -->
+            <div class="mt-5 bg-cream rounded-2xl p-4 border border-warm/60">
+              <p class="font-sans text-xs text-bark/60 mb-3 font-600 tracking-wide uppercase">Or select your skin tone</p>
+              <div class="flex gap-2 flex-wrap">
+                <button onclick="selectSkinTone(this, 'fair')" class="skin-tone-btn w-9 h-9 rounded-full border-2 border-transparent hover:border-terracotta transition-all" style="background:#f5d5c0" title="Fair"></button>
+                <button onclick="selectSkinTone(this, 'light')" class="skin-tone-btn w-9 h-9 rounded-full border-2 border-transparent hover:border-terracotta transition-all" style="background:#e8b896" title="Light"></button>
+                <button onclick="selectSkinTone(this, 'medium')" class="skin-tone-btn w-9 h-9 rounded-full border-2 border-transparent hover:border-terracotta transition-all" style="background:#c89070" title="Medium"></button>
+                <button onclick="selectSkinTone(this, 'tan')" class="skin-tone-btn w-9 h-9 rounded-full border-2 border-transparent hover:border-terracotta transition-all" style="background:#a8714a" title="Tan"></button>
+                <button onclick="selectSkinTone(this, 'deep')" class="skin-tone-btn w-9 h-9 rounded-full border-2 border-transparent hover:border-terracotta transition-all" style="background:#7a4d30" title="Deep"></button>
+                <button onclick="selectSkinTone(this, 'rich')" class="skin-tone-btn w-9 h-9 rounded-full border-2 border-transparent hover:border-terracotta transition-all" style="background:#4a2c18" title="Rich"></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quiz / concerns side -->
+          <div class="space-y-4 reveal reveal-delay-2">
+            <p class="font-sans text-sm font-600 text-bark mb-2 tracking-wide uppercase">Tell us more (optional)</p>
+
+            <!-- Age range -->
+            <div class="bg-cream rounded-2xl p-5 border border-warm/60">
+              <p class="font-sans text-sm font-500 text-bark mb-3">Your age range</p>
+              <div class="grid grid-cols-3 gap-2">
+                <button onclick="selectAge(this,'teens')" class="quiz-btn font-sans text-xs py-2.5 px-3 rounded-xl border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">Under 25</button>
+                <button onclick="selectAge(this,'25-35')" class="quiz-btn font-sans text-xs py-2.5 px-3 rounded-xl border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">25–35</button>
+                <button onclick="selectAge(this,'35-45')" class="quiz-btn font-sans text-xs py-2.5 px-3 rounded-xl border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">35–45</button>
+                <button onclick="selectAge(this,'45-55')" class="quiz-btn font-sans text-xs py-2.5 px-3 rounded-xl border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">45–55</button>
+                <button onclick="selectAge(this,'55+')" class="quiz-btn font-sans text-xs py-2.5 px-3 rounded-xl border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">55+</button>
+              </div>
+            </div>
+
+            <!-- Skin concerns -->
+            <div class="bg-cream rounded-2xl p-5 border border-warm/60">
+              <p class="font-sans text-sm font-500 text-bark mb-3">Main skin concerns <span class="text-bark/40 text-xs">(select all that apply)</span></p>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="toggleConcern(this,'dryness')" class="concern-btn font-sans text-xs py-2 px-4 rounded-full border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">Dryness</button>
+                <button onclick="toggleConcern(this,'oiliness')" class="concern-btn font-sans text-xs py-2 px-4 rounded-full border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">Oiliness</button>
+                <button onclick="toggleConcern(this,'acne')" class="concern-btn font-sans text-xs py-2 px-4 rounded-full border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">Acne / Breakouts</button>
+                <button onclick="toggleConcern(this,'dark-spots')" class="concern-btn font-sans text-xs py-2 px-4 rounded-full border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">Dark Spots</button>
+                <button onclick="toggleConcern(this,'aging')" class="concern-btn font-sans text-xs py-2 px-4 rounded-full border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">Fine Lines</button>
+                <button onclick="toggleConcern(this,'sensitivity')" class="concern-btn font-sans text-xs py-2 px-4 rounded-full border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">Sensitivity</button>
+                <button onclick="toggleConcern(this,'pores')" class="concern-btn font-sans text-xs py-2 px-4 rounded-full border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">Enlarged Pores</button>
+                <button onclick="toggleConcern(this,'dullness')" class="concern-btn font-sans text-xs py-2 px-4 rounded-full border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">Dullness</button>
+              </div>
+            </div>
+
+            <!-- Environment -->
+            <div class="bg-cream rounded-2xl p-5 border border-warm/60">
+              <p class="font-sans text-sm font-500 text-bark mb-3">Your environment</p>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="selectEnv(this,'humid')" class="env-btn font-sans text-xs py-2.5 px-3 rounded-xl border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">🌴 Humid / Tropical</button>
+                <button onclick="selectEnv(this,'dry')" class="env-btn font-sans text-xs py-2.5 px-3 rounded-xl border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">🌵 Dry / Arid</button>
+                <button onclick="selectEnv(this,'cold')" class="env-btn font-sans text-xs py-2.5 px-3 rounded-xl border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">❄️ Cold / Windy</button>
+                <button onclick="selectEnv(this,'urban')" class="env-btn font-sans text-xs py-2.5 px-3 rounded-xl border border-warm bg-white text-bark/70 hover:border-terracotta hover:text-terracotta transition-all">🏙️ Urban / Polluted</button>
+              </div>
+            </div>
+
+            <!-- Analyse button -->
+            <button onclick="runAnalysis()" class="btn-terra w-full justify-center py-4 text-sm">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Analyse My Skin Now
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== PRODUCTS ===== -->
+  <section id="products" class="py-24 md:py-32 bg-cream relative">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div>
+          <span class="tag reveal">
+            <span class="w-1.5 h-1.5 rounded-full bg-terracotta"></span>
+            Our Collection
+          </span>
+          <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] font-400 leading-[1.05] mt-5 reveal reveal-delay-1">
+            Botanically rooted.<br/>
+            <em class="terra-text">Scientifically proven.</em>
+          </h2>
+        </div>
+        <a href="#" class="btn-outline text-xs self-start md:self-auto reveal reveal-delay-2">View All Products</a>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="flex gap-2 flex-wrap mb-10 reveal reveal-delay-1">
+        <button onclick="filterProducts(this,'all')" class="filter-btn font-sans text-xs py-2.5 px-5 rounded-full bg-terracotta text-cream font-600 tracking-wide">All</button>
+        <button onclick="filterProducts(this,'dry')" class="filter-btn font-sans text-xs py-2.5 px-5 rounded-full border border-warm text-bark/60 hover:border-terracotta hover:text-terracotta transition-all">Dry Skin</button>
+        <button onclick="filterProducts(this,'oily')" class="filter-btn font-sans text-xs py-2.5 px-5 rounded-full border border-warm text-bark/60 hover:border-terracotta hover:text-terracotta transition-all">Oily Skin</button>
+        <button onclick="filterProducts(this,'combination')" class="filter-btn font-sans text-xs py-2.5 px-5 rounded-full border border-warm text-bark/60 hover:border-terracotta hover:text-terracotta transition-all">Combination</button>
+        <button onclick="filterProducts(this,'sensitive')" class="filter-btn font-sans text-xs py-2.5 px-5 rounded-full border border-warm text-bark/60 hover:border-terracotta hover:text-terracotta transition-all">Sensitive</button>
+        <button onclick="filterProducts(this,'aging')" class="filter-btn font-sans text-xs py-2.5 px-5 rounded-full border border-warm text-bark/60 hover:border-terracotta hover:text-terracotta transition-all">Anti-Aging</button>
+      </div>
+
+      <!-- Product grid -->
+      <div id="productGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Products inserted by JS -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== INGREDIENTS ===== -->
+  <section id="ingredients" class="py-24 md:py-32 bg-parchment relative overflow-hidden">
+    <div class="circle-deco w-[400px] h-[400px] bg-terracotta/5 bottom-0 -left-20"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <span class="tag reveal">
+            <span class="w-1.5 h-1.5 rounded-full bg-terracotta"></span>
+            Key Ingredients
+          </span>
+          <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] font-400 leading-[1.05] mt-6 reveal reveal-delay-1">
+            Nature's finest,<br/>
+            <em class="terra-text">enhanced by science</em>
+          </h2>
+          <p class="font-sans text-bark/60 mt-5 text-base leading-relaxed reveal reveal-delay-2">Every ingredient is ethically sourced, dermatologist tested, and chosen for its proven efficacy. No fillers. No compromise.</p>
+
+          <div class="mt-10 space-y-5 reveal reveal-delay-3">
+            <div class="flex gap-4 items-start group">
+              <div class="w-10 h-10 rounded-xl bg-terracotta/10 flex items-center justify-center flex-shrink-0 group-hover:bg-terracotta/20 transition-colors">
+                <span class="text-lg">🌱</span>
+              </div>
+              <div>
+                <div class="font-sans font-600 text-bark text-sm">Bakuchiol (Natural Retinol)</div>
+                <div class="font-sans text-bark/50 text-xs mt-1 leading-relaxed">Plant-derived retinol alternative. Reduces fine lines without irritation — perfect for sensitive skin.</div>
+              </div>
+            </div>
+            <div class="flex gap-4 items-start group">
+              <div class="w-10 h-10 rounded-xl bg-terracotta/10 flex items-center justify-center flex-shrink-0 group-hover:bg-terracotta/20 transition-colors">
+                <span class="text-lg">💧</span>
+              </div>
+              <div>
+                <div class="font-sans font-600 text-bark text-sm">Multi-Molecular Hyaluronic Acid</div>
+                <div class="font-sans text-bark/50 text-xs mt-1 leading-relaxed">Penetrates multiple skin layers to deliver deep, lasting hydration from within.</div>
+              </div>
+            </div>
+            <div class="flex gap-4 items-start group">
+              <div class="w-10 h-10 rounded-xl bg-terracotta/10 flex items-center justify-center flex-shrink-0 group-hover:bg-terracotta/20 transition-colors">
+                <span class="text-lg">☀️</span>
+              </div>
+              <div>
+                <div class="font-sans font-600 text-bark text-sm">Stabilised Vitamin C (15%)</div>
+                <div class="font-sans text-bark/50 text-xs mt-1 leading-relaxed">Brightens, protects against free radicals, and fades dark spots over time.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ingredient visual -->
+        <div class="grid grid-cols-2 gap-4 reveal reveal-delay-2">
+          <div class="bg-cream rounded-2xl p-6 card-lift border border-warm/60">
+            <div class="text-3xl mb-3">🫐</div>
+            <div class="font-sans font-600 text-bark text-sm">Blueberry Extract</div>
+            <div class="font-sans text-bark/50 text-xs mt-1 leading-relaxed">Rich in antioxidants, protects against UV damage</div>
+            <div class="mt-3 tag text-[10px] py-1 px-2.5">Anti-oxidant</div>
+          </div>
+          <div class="bg-terracotta/8 rounded-2xl p-6 card-lift border border-terracotta/20 mt-8">
+            <div class="text-3xl mb-3">🌿</div>
+            <div class="font-sans font-600 text-bark text-sm">Centella Asiatica</div>
+            <div class="font-sans text-bark/50 text-xs mt-1 leading-relaxed">Soothes, repairs and rebuilds skin's barrier</div>
+            <div class="mt-3 tag text-[10px] py-1 px-2.5">Calming</div>
+          </div>
+          <div class="bg-sage/10 rounded-2xl p-6 card-lift border border-sage/20 -mt-4">
+            <div class="text-3xl mb-3">🌼</div>
+            <div class="font-sans font-600 text-bark text-sm">Chamomile CO₂</div>
+            <div class="font-sans text-bark/50 text-xs mt-1 leading-relaxed">Reduces redness, heals inflammation naturally</div>
+            <div class="mt-3 tag text-[10px] py-1 px-2.5">Soothing</div>
+          </div>
+          <div class="bg-cream rounded-2xl p-6 card-lift border border-warm/60">
+            <div class="text-3xl mb-3">🥥</div>
+            <div class="font-sans font-600 text-bark text-sm">Squalane Oil</div>
+            <div class="font-sans text-bark/50 text-xs mt-1 leading-relaxed">Lightweight moisture that mimics skin's own oils</div>
+            <div class="mt-3 tag text-[10px] py-1 px-2.5">Hydrating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="py-24 bg-cream relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="text-center mb-16">
+        <span class="tag reveal"><span class="w-1.5 h-1.5 rounded-full bg-terracotta"></span>Testimonials</span>
+        <h2 class="font-display text-[clamp(2rem,4vw,3.2rem)] font-400 mt-5 reveal reveal-delay-1">Real skin. <em class="terra-text">Real results.</em></h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-5">
+        <div class="bg-parchment rounded-2xl p-7 card-lift border border-warm/60 reveal">
+          <div class="flex gap-1 mb-4">
+            <span class="text-terracotta text-sm">★★★★★</span>
+          </div>
+          <p class="font-display italic text-bark text-lg font-300 leading-snug mb-5">"The skin scan was shockingly accurate. It identified my combination skin and suggested the exact products I needed. My skin has never looked better."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-terracotta/20 flex items-center justify-center font-sans font-600 text-sm text-terracotta">A</div>
+            <div>
+              <div class="font-sans font-600 text-bark text-sm">Amara K.</div>
+              <div class="font-sans text-xs text-bark/50">Lagos, Nigeria</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-terracotta/5 rounded-2xl p-7 card-lift border border-terracotta/15 reveal reveal-delay-1">
+          <div class="flex gap-1 mb-4">
+            <span class="text-terracotta text-sm">★★★★★</span>
+          </div>
+          <p class="font-display italic text-bark text-lg font-300 leading-snug mb-5">"I've tried every serum on the market. After Lumière's AI scan, I finally know what my skin actually needs. The Vitamin C serum is extraordinary."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-sage/30 flex items-center justify-center font-sans font-600 text-sm text-sage">J</div>
+            <div>
+              <div class="font-sans font-600 text-bark text-sm">Jade M.</div>
+              <div class="font-sans text-xs text-bark/50">London, UK</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-parchment rounded-2xl p-7 card-lift border border-warm/60 reveal reveal-delay-2">
+          <div class="flex gap-1 mb-4">
+            <span class="text-terracotta text-sm">★★★★★</span>
+          </div>
+          <p class="font-display italic text-bark text-lg font-300 leading-snug mb-5">"Sensitive skin sufferer for 15 years. The scan recognised my sensitivity immediately. The Bakuchiol cream is a miracle — no irritation, just results."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-warm flex items-center justify-center font-sans font-600 text-sm text-bark">S</div>
+            <div>
+              <div class="font-sans font-600 text-bark text-sm">Sofia R.</div>
+              <div class="font-sans text-xs text-bark/50">São Paulo, Brazil</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== CTA BANNER ===== -->
+  <section class="py-20 bg-dusk relative overflow-hidden">
+    <div class="circle-deco w-[600px] h-[600px] bg-terracotta/10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="max-w-3xl mx-auto px-6 text-center relative z-10">
+      <h2 class="font-display text-[clamp(2.5rem,5.5vw,4.5rem)] font-300 text-cream leading-[1] reveal">
+        Ready to know your<br/><em class="text-terra-light font-500">skin deeply?</em>
+      </h2>
+      <p class="font-sans text-cream/50 mt-6 text-base leading-relaxed reveal reveal-delay-1">Free skin analysis in under 30 seconds. No account needed.</p>
+      <div class="mt-8 flex flex-wrap gap-4 justify-center reveal reveal-delay-2">
+        <a href="#scanner" class="btn-terra">Start Your Free Scan</a>
+        <a href="#products" class="font-sans text-sm text-cream/60 hover:text-cream transition-colors flex items-center gap-2 py-3">Explore products →</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-dusk border-t border-white/5 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+        <div class="md:col-span-1">
+          <div class="flex items-center gap-2.5 mb-4">
+            <div class="w-8 h-8 rounded-full bg-terracotta flex items-center justify-center">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C8 2 4 6 4 10c0 5 4 9 8 12 4-3 8-7 8-12 0-4-4-8-8-8z" fill="white"/><circle cx="12" cy="10" r="3" fill="rgba(255,255,255,0.5)"/></svg>
+            </div>
+            <span class="font-display text-xl font-400 text-cream tracking-wide">Lumière</span>
+          </div>
+          <p class="font-sans text-cream/40 text-sm leading-relaxed">Skincare that understands your skin. Botanically rooted, scientifically proven.</p>
+          <div class="flex gap-3 mt-5">
+            <a href="#" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-cream/40 hover:text-cream hover:border-white/30 transition-all">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-cream/40 hover:text-cream hover:border-white/30 transition-all">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="font-sans font-600 text-cream/80 text-sm mb-4 tracking-wide uppercase text-xs">Products</div>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Serums</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Moisturisers</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Cleansers</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Toners</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Eye Care</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="font-sans font-600 text-cream/80 text-sm mb-4 tracking-wide uppercase text-xs">Skin Types</div>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Dry Skin</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Oily Skin</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Combination</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Sensitive</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Normal</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="font-sans font-600 text-cream/80 text-sm mb-4 tracking-wide uppercase text-xs">Company</div>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">About Us</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Ingredients</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Sustainability</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Press</a></li>
+            <li><a href="#" class="font-sans text-cream/40 text-sm hover:text-cream transition-colors">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-3">
+        <p class="font-sans text-cream/30 text-xs">© 2026 Lumière Skincare. All rights reserved.</p>
+        <div class="flex gap-5">
+          <a href="#" class="font-sans text-cream/30 text-xs hover:text-cream/60 transition-colors">Privacy Policy</a>
+          <a href="#" class="font-sans text-cream/30 text-xs hover:text-cream/60 transition-colors">Terms</a>
+          <a href="#" class="font-sans text-cream/30 text-xs hover:text-cream/60 transition-colors">Cookie Settings</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ===== RESULTS MODAL ===== -->
+  <div id="resultsModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <!-- Header -->
+      <div class="sticky top-0 bg-parchment border-b border-warm/60 px-8 py-5 flex items-center justify-between rounded-t-3xl z-10">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-terracotta flex items-center justify-center">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <span class="font-display text-xl font-400 text-dusk">Your Skin Analysis</span>
+        </div>
+        <button onclick="closeResults()" class="w-8 h-8 rounded-full bg-warm flex items-center justify-center text-bark hover:bg-terracotta hover:text-cream transition-all">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="p-8">
+        <!-- Skin type result -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <p class="font-sans text-xs text-bark/50 tracking-widest uppercase mb-2">Skin Type Detected</p>
+            <div id="skinTypeBadge" class="skin-badge">Normal / Combination Skin</div>
+          </div>
+          <div class="text-right">
+            <p class="font-sans text-xs text-bark/50 mb-1">Confidence</p>
+            <p class="font-display text-3xl terra-text font-500" id="confidenceScore">91%</p>
+          </div>
+        </div>
+
+        <!-- Analysis bars -->
+        <div class="bg-cream rounded-2xl p-6 mb-6 border border-warm/60">
+          <p class="font-sans text-sm font-600 text-bark mb-5 tracking-wide uppercase text-xs">Skin Profile Analysis</p>
+          <div id="analysisBars" class="space-y-4">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+        <!-- Key findings -->
+        <div id="keyFindings" class="bg-terracotta/6 rounded-2xl p-6 border border-terracotta/15 mb-6">
+          <!-- Filled by JS -->
+        </div>
+
+        <!-- Detailed Description -->
+        <div id="detailedDescription" class="bg-warm/10 rounded-2xl p-8 border border-warm/40 mb-8 max-h-[400px] overflow-y-auto no-scrollbar">
+          <!-- Filled by JS -->
+        </div>
+
+        <!-- Product recommendations -->
+        <div>
+          <p class="font-sans text-sm font-600 text-bark mb-5 tracking-wide uppercase text-xs">Recommended For You</p>
+          <div id="recommendedProducts" class="grid sm:grid-cols-3 gap-4">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="mt-8 text-center">
+          <p class="font-sans text-xs text-bark/50 mb-4">Add your complete personalised routine to cart</p>
+          <button class="btn-terra py-4 px-10 text-sm">
+            Shop My Routine
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== JS ===== -->
+  <script src="config.js"></script>
+  <script src="saas-api.js"></script>
+  <script>
+    // ---- Data ----
+    const PRODUCTS = [
+      { id:1, name:'Hydra-Surge Serum', tagline:'Deep hydration meets glow', price:'₦18,500', category:['dry','combination','all'], skin:['dry','normal','combination'], emoji:'💧',
+        color:'#e8ddd0', desc:'Multi-molecular hyaluronic acid + niacinamide for plump, radiant skin.', badge:'Bestseller', stars:4.9, reviews:214 },
+      { id:2, name:'Clarity Foam Cleanser', tagline:'Purify without stripping', price:'₦12,000', category:['oily','combination','all'], skin:['oily','combination'], emoji:'🫧',
+        color:'#d4ead4', desc:'Gentle foaming cleanser with salicylic acid and tea tree. Clears without drying.', badge:'New', stars:4.8, reviews:189 },
+      { id:3, name:'Velvet Barrier Cream', tagline:'Rebuild. Repair. Protect.', price:'₦22,000', category:['dry','sensitive','all'], skin:['dry','sensitive'], emoji:'🧴',
+        color:'#f0e0d4', desc:'Ceramide-rich moisturiser that restores skin barrier and locks in 72hr hydration.', badge:'Staff Pick', stars:4.9, reviews:301 },
+      { id:4, name:'Glow Vitamin C 15%', tagline:'Radiance, amplified', price:'₦24,500', category:['aging','combination','all'], skin:['all'], emoji:'🍊',
+        color:'#ffecd0', desc:'Stabilised vitamin C with ferulic acid. Fades dark spots, boosts luminosity.', badge:'Top Rated', stars:5.0, reviews:412 },
+      { id:5, name:'Retinol Night Restore', tagline:'Renew while you sleep', price:'₦28,000', category:['aging','all'], skin:['normal','combination'], emoji:'🌙',
+        color:'#e0d4ea', desc:'0.3% encapsulated retinol with peptides. Visibly reduces wrinkles in 4 weeks.', badge:'Night', stars:4.7, reviews:156 },
+      { id:6, name:'Calm & Soothe Toner', tagline:'Sensitivity, silenced', price:'₦14,000', category:['sensitive','dry','all'], skin:['sensitive','dry'], emoji:'🌸',
+        color:'#fde8e8', desc:'Centella asiatica + oat extract toner. Instantly calms redness and irritation.', badge:'Gentle', stars:4.8, reviews:267 },
+      { id:7, name:'Pore Refine Essence', tagline:'Smooth. Refined. Lifted.', price:'₦19,500', category:['oily','combination','all'], skin:['oily','combination'], emoji:'✨',
+        color:'#e8f0e0', desc:'BHA + niacinamide essence that visibly minimises pores and controls shine.', badge:'', stars:4.6, reviews:143 },
+      { id:8, name:'SPF 50 Fluid Sunscreen', tagline:'Daily protection, weightless', price:'₦16,000', category:['all'], skin:['all'], emoji:'☀️',
+        color:'#fff4d0', desc:'Ultra-light SPF50 PA++++ with antioxidants. No white cast for all skin tones.', badge:'Essential', stars:4.9, reviews:389 },
+    ];
+
+    const SKIN_PROFILES = {
+      fair:   { type:'Dry / Sensitive',        confidence:88, hydration:38, oiliness:20, sensitivity:72, elasticity:62, brightness:55, concerns:['Dryness','Sensitivity','Redness'], products:[3,6,1] },
+      light:  { type:'Normal / Dry',            confidence:85, hydration:55, oiliness:30, sensitivity:50, elasticity:70, brightness:62, concerns:['Occasional Dryness','Mild Dullness'], products:[1,3,4] },
+      medium: { type:'Combination',             confidence:91, hydration:60, oiliness:55, sensitivity:35, elasticity:75, brightness:68, concerns:['T-Zone Oiliness','Uneven Texture','Pores'], products:[2,7,4] },
+      tan:    { type:'Oily / Combination',      confidence:87, hydration:50, oiliness:72, sensitivity:28, elasticity:78, brightness:60, concerns:['Excess Shine','Acne-Prone','Large Pores'], products:[2,7,6] },
+      deep:   { type:'Normal / Oily',           confidence:89, hydration:58, oiliness:65, sensitivity:32, elasticity:80, brightness:50, concerns:['Oiliness','Dark Spots','Post-Acne Marks'], products:[4,2,7] },
+      rich:   { type:'Deep / Melanin Rich',     confidence:92, hydration:52, oiliness:48, sensitivity:30, elasticity:82, brightness:45, concerns:['Hyperpigmentation','Uneven Tone','Dark Spots'], products:[4,1,3] },
+    };
+
+    const CONCERN_PROFILES = {
+      dryness:      { type:'Dry Skin',          confidence:90, hydration:30, oiliness:15, sensitivity:55, elasticity:60, brightness:50, products:[1,3,6] },
+      oiliness:     { type:'Oily Skin',         confidence:88, hydration:60, oiliness:78, sensitivity:25, elasticity:75, brightness:60, products:[2,7,8] },
+      acne:         { type:'Acne-Prone',        confidence:85, hydration:50, oiliness:70, sensitivity:60, elasticity:65, brightness:45, products:[2,6,7] },
+      'dark-spots': { type:'Uneven Skin Tone',  confidence:87, hydration:55, oiliness:45, sensitivity:40, elasticity:70, brightness:42, products:[4,1,8] },
+      aging:        { type:'Mature / Aging',    confidence:89, hydration:45, oiliness:30, sensitivity:45, elasticity:45, brightness:55, products:[5,1,4] },
+      sensitivity:  { type:'Sensitive Skin',   confidence:91, hydration:48, oiliness:25, sensitivity:85, elasticity:62, brightness:52, products:[6,3,1] },
+      pores:        { type:'Enlarged Pores',    confidence:84, hydration:55, oiliness:68, sensitivity:35, elasticity:65, brightness:58, products:[7,2,4] },
+      dullness:     { type:'Dull / Fatigued',   confidence:86, hydration:48, oiliness:40, sensitivity:38, elasticity:60, brightness:35, products:[4,1,5] },
+    };
+
+    let selectedSkinTone = null;
+    let selectedAge = null;
+    let selectedConcerns = [];
+    let selectedEnv = null;
+    let videoStream = null;
+
+    // ---- Render Products ----
+    function renderProducts(filter='all') {
+      const grid = document.getElementById('productGrid');
+      const filtered = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category.includes(filter));
+      grid.innerHTML = filtered.map(p => `
+        <div class="product-card reveal">
+          <div class="relative overflow-hidden" style="aspect-ratio:1; background:${p.color}">
+            <div class="absolute inset-0 flex items-center justify-center text-7xl">
+              <span style="filter:drop-shadow(0 4px 12px rgba(92,74,58,0.15))">${p.emoji}</span>
+            </div>
+            ${p.badge ? `<div class="absolute top-3 left-3 font-sans text-[10px] font-600 px-2.5 py-1 rounded-full bg-terracotta text-cream tracking-wide">${p.badge}</div>` : ''}
+            <button onclick="addToCart(${p.id})" class="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-dusk/80 flex items-center justify-center text-cream hover:bg-terracotta transition-all shadow-lg">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+          <div class="p-5">
+            <div class="flex justify-between items-start mb-1">
+              <div class="font-sans font-600 text-bark text-sm leading-tight">${p.name}</div>
+              <div class="font-sans font-600 text-terracotta text-sm ml-2 flex-shrink-0">${p.price}</div>
+            </div>
+            <div class="font-display italic text-bark/50 text-sm mb-2">${p.tagline}</div>
+            <div class="font-sans text-bark/50 text-xs leading-relaxed mb-3">${p.desc}</div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-terracotta text-xs">★</span>
+              <span class="font-sans text-xs font-600 text-bark">${p.stars}</span>
+              <span class="font-sans text-xs text-bark/40">(${p.reviews})</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      // trigger reveal
+      setTimeout(() => {
+        document.querySelectorAll('#productGrid .reveal').forEach(el => el.classList.add('visible'));
+      }, 50);
+    }
+
+    function filterProducts(btn, type) {
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('bg-terracotta','text-cream');
+        b.classList.add('border','border-warm','text-bark/60');
+      });
+      btn.classList.add('bg-terracotta','text-cream');
+      btn.classList.remove('border','border-warm','text-bark/60');
+      renderProducts(type);
+    }
+
+    // ---- Quiz interactions ----
+    function selectAge(btn, age) {
+      document.querySelectorAll('.quiz-btn').forEach(b => { b.classList.remove('border-terracotta','text-terracotta','bg-terracotta/5'); });
+      btn.classList.add('border-terracotta','text-terracotta','bg-terracotta/5');
+      selectedAge = age;
+    }
+
+    function toggleConcern(btn, concern) {
+      if (btn.classList.contains('border-terracotta')) {
+        btn.classList.remove('border-terracotta','text-terracotta','bg-terracotta/5');
+        selectedConcerns = selectedConcerns.filter(c => c !== concern);
+      } else {
+        btn.classList.add('border-terracotta','text-terracotta','bg-terracotta/5');
+        selectedConcerns.push(concern);
+      }
+    }
+
+    function selectEnv(btn, env) {
+      document.querySelectorAll('.env-btn').forEach(b => { b.classList.remove('border-terracotta','text-terracotta','bg-terracotta/5'); });
+      btn.classList.add('border-terracotta','text-terracotta','bg-terracotta/5');
+      selectedEnv = env;
+    }
+
+    function selectSkinTone(btn, tone) {
+      document.querySelectorAll('.skin-tone-btn').forEach(b => { b.style.borderColor = 'transparent'; });
+      btn.style.borderColor = '#c17a5a';
+      selectedSkinTone = tone;
+    }
+
+    // ---- Camera ----
+    async function startCamera() {
+      try {
+        videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode:'user', width:{ ideal:640 }, height:{ ideal:800 } } });
+        const video = document.getElementById('video');
+        video.srcObject = videoStream;
+        video.classList.remove('hidden');
+        document.getElementById('idleState').classList.add('hidden');
+        document.getElementById('scanLine').classList.remove('hidden');
+        document.getElementById('captureBtn').classList.remove('hidden');
+        document.getElementById('startCameraBtn').classList.add('hidden');
+      } catch(e) {
+        alert('Camera access denied or unavailable. Please upload a photo instead.');
+      }
+    }
+
+    function capturePhoto() {
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      canvas.width = video.videoWidth || 480;
+      canvas.height = video.videoHeight || 640;
+      const ctx = canvas.getContext('2d');
+      ctx.save(); ctx.scale(-1,1); ctx.drawImage(video,-canvas.width,0); ctx.restore();
+      video.classList.add('hidden');
+      canvas.classList.remove('hidden');
+      document.getElementById('scanLine').classList.add('hidden');
+      document.getElementById('captureBtn').classList.add('hidden');
+      document.getElementById('retakeBtn').classList.remove('hidden');
+      document.getElementById('capturedBadge').classList.remove('hidden');
+      if (videoStream) videoStream.getTracks().forEach(t => t.stop());
+      runAnalysis();
+    }
+
+    function handleUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const canvas = document.getElementById('canvas');
+        const img = new Image();
+        img.onload = () => {
+          canvas.width = img.width; canvas.height = img.height;
+          canvas.getContext('2d').drawImage(img,0,0);
+          canvas.classList.remove('hidden');
+          document.getElementById('idleState').classList.add('hidden');
+          document.getElementById('scanLine').classList.add('hidden');
+          document.getElementById('capturedBadge').classList.remove('hidden');
+          document.getElementById('retakeBtn').classList.remove('hidden');
+          runAnalysis();
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function retake() {
+      document.getElementById('canvas').classList.add('hidden');
+      document.getElementById('video').classList.add('hidden');
+      document.getElementById('idleState').classList.remove('hidden');
+      document.getElementById('capturedBadge').classList.add('hidden');
+      document.getElementById('retakeBtn').classList.add('hidden');
+      document.getElementById('startCameraBtn').classList.remove('hidden');
+      document.getElementById('captureBtn').classList.add('hidden');
+    }
+
+    // ---- Analysis Engine ----
+    function buildProfile() {
+      let base = { type:'Normal / Balanced', confidence:83, hydration:58, oiliness:42, sensitivity:38, elasticity:72, brightness:65, concerns:['Balanced Skin'], products:[1,4,8] };
+
+      // skin tone overrides
+      if (selectedSkinTone && SKIN_PROFILES[selectedSkinTone]) {
+        base = { ...SKIN_PROFILES[selectedSkinTone] };
+      }
+
+      // blend concerns
+      if (selectedConcerns.length > 0) {
+        const primaryConcern = selectedConcerns[0];
+        if (CONCERN_PROFILES[primaryConcern]) {
+          const cp = CONCERN_PROFILES[primaryConcern];
+          base.type = cp.type;
+          base.confidence = Math.round((base.confidence + cp.confidence) / 2);
+          base.hydration = Math.round((base.hydration + cp.hydration) / 2);
+          base.oiliness = Math.round((base.oiliness + cp.oiliness) / 2);
+          base.sensitivity = Math.round((base.sensitivity + cp.sensitivity) / 2);
+          base.concerns = [...new Set([...base.concerns, ...cp.concerns || [primaryConcern]])].slice(0,4);
+          base.products = [...new Set([...cp.products, ...base.products])].slice(0,3);
+        }
+      }
+
+      // age adjustments
+      if (selectedAge === '45-55' || selectedAge === '55+') {
+        base.elasticity = Math.max(base.elasticity - 20, 25);
+        base.concerns = [...new Set(['Fine Lines','Loss of Elasticity',...base.concerns])].slice(0,4);
+        if (!base.products.includes(5)) base.products = [5, ...base.products.slice(0,2)];
+      }
+
+      // env adjustments
+      if (selectedEnv === 'dry') { base.hydration = Math.max(base.hydration - 15, 20); base.concerns = ['Environmental Dryness',...base.concerns].slice(0,4); }
+      if (selectedEnv === 'humid') { base.oiliness = Math.min(base.oiliness + 15, 90); }
+      if (selectedEnv === 'urban') { base.brightness = Math.max(base.brightness - 10, 30); base.concerns = ['Pollution Stress',...base.concerns].slice(0,4); }
+
+      return base;
+    }
+
+    async function runAnalysis() {
+      // show analyzing overlay
+      const overlay = document.getElementById('analyzingOverlay');
+      overlay.classList.remove('hidden');
+      overlay.style.display = 'flex';
+
+      // update step dots
+      const step2Dot = document.getElementById('step2Dot');
+      if (step2Dot) {
+        step2Dot.classList.remove('bg-warm');
+        step2Dot.classList.add('bg-terracotta','text-cream');
+        const step2Span = document.querySelector('#step2Dot + span');
+        if (step2Span) {
+            step2Span.classList.remove('text-bark/40');
+            step2Span.classList.add('text-bark');
+        }
+      }
+
+      try {
+        const canvas = document.getElementById('canvas');
+        if (canvas.classList.contains('hidden')) {
+          throw new Error('Please capture or upload a photo first');
+        }
+
+        // Get image from canvas
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+        
+        // Prepare metadata (mapping UI names to backend names)
+        const metadata = {
+          age: parseInt(selectedAge) || 30,
+          known_skin_condition: selectedConcerns.join(', ') || 'none',
+          environment: selectedEnv,
+          known_skintone_type: selectedSkinTone || 'tan'
+        };
+
+        // Call real backend
+        const result = await SaasApiService.scanSkin(blob, metadata);
+        
+        if (result.succeeded) {
+          overlay.style.display = 'none';
+          showResults(result.resultData);
+        } else {
+          throw new Error(result.message || 'Analysis failed');
+        }
+      } catch (error) {
+        overlay.style.display = 'none';
+        alert(`Analysis Error: ${error.message}`);
+        console.error(error);
+      }
+    }
+
+    function showResults(apiData) {
+      // Map API data to UI
+      const type = apiData.label || 'Normal / Combination';
+      const confidence = apiData.confidence || 95;
+      const recommendations = apiData.recommendations || [];
+
+      // skin type
+      document.getElementById('skinTypeBadge').textContent = type;
+      document.getElementById('confidenceScore').textContent = confidence + '%';
+
+      // analysis bars (Using mock or derived values if backend doesn't provide specific levels)
+      const bars = [
+        { label:'Hydration Level',   value: apiData.hydration || 65,    color:'#5b9cf0' },
+        { label:'Oil Production',    value: apiData.oiliness || 45,     color:'#c17a5a' },
+        { label:'Sensitivity',       value: apiData.sensitivity || 30,  color:'#d4957a' },
+        { label:'Skin Elasticity',   value: apiData.elasticity || 80,   color:'#8a9e8a' },
+        { label:'Brightness / Glow', value: apiData.brightness || 70,   color:'#e8b84b' },
+      ];
+      document.getElementById('analysisBars').innerHTML = bars.map(b => `
+        <div>
+          <div class="flex justify-between mb-1.5">
+            <span class="font-sans text-xs text-bark font-500">${b.label}</span>
+            <span class="font-sans text-xs font-600 text-bark">${b.value}%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill-el" style="--fill:${b.value}%; background:linear-gradient(90deg,${b.color},${b.color}99)"></div>
+          </div>
+        </div>
+      `).join('');
+
+      // key findings
+      const findings = apiData.findings || (apiData.label ? [`Detected ${apiData.label}`] : ['Balanced Skin']);
+      document.getElementById('keyFindings').innerHTML = `
+        <p class="font-sans text-xs text-terracotta font-600 tracking-widest uppercase mb-3">Key Findings</p>
+        <div class="flex flex-wrap gap-2">
+          ${findings.map(c => `<span class="font-sans text-xs px-3 py-1.5 rounded-full bg-terracotta/10 text-terracotta border border-terracotta/20">${c}</span>`).join('')}
+        </div>
+        <p class="font-sans text-sm text-bark/60 mt-4 leading-relaxed">Based on your AI analysis, we've identified <strong class="text-bark">${type}</strong> tendencies. Your personalised routine below targets your specific profile.</p>
+      `;
+
+      // detailed description (split by lines for better clinical formatting)
+      if (apiData.description) {
+        const descriptionHtml = apiData.description.split('\n').map(line => {
+          const cleanLine = line.replace(/\*/g, '').trim();
+          if (!cleanLine) return '';
+          
+          if (cleanLine.match(/^\d\./)) {
+            return `<h4 class="text-terracotta text-[10px] font-black tracking-widest pt-5 border-t border-warm/40 mt-5 first:mt-0 first:border-t-0 uppercase">${cleanLine}</h4>`;
+          }
+          return `<p class="text-xs md:text-sm font-sans text-bark/70 leading-relaxed mb-3">${cleanLine}</p>`;
+        }).join('');
+        
+        document.getElementById('detailedDescription').innerHTML = `
+          <p class="font-sans text-xs text-bark/40 font-600 tracking-widest uppercase mb-5">AI Clinical Analysis</p>
+          <div class="space-y-1">${descriptionHtml}</div>
+        `;
+        document.getElementById('detailedDescription').classList.remove('hidden');
+      } else {
+        document.getElementById('detailedDescription').classList.add('hidden');
+      }
+
+      // recommended products from backend (Mapping backend products to the existing UI format)
+      document.getElementById('recommendedProducts').innerHTML = recommendations.length > 0 
+        ? recommendations.map(p => `
+            <div class="bg-cream rounded-2xl border border-warm/60 overflow-hidden hover:border-terracotta/40 transition-all cursor-pointer group" onclick="addToCart(${p.id})">
+              <div class="h-28 flex items-center justify-center text-5xl" style="background:#e8ddd0">
+                ${p.emoji || '✨'}
+              </div>
+              <div class="p-4">
+                <div class="font-sans font-600 text-bark text-xs leading-tight mb-1">${p.name}</div>
+                <div class="font-sans text-terracotta text-xs font-600">₦${p.price || 'Price on request'}</div>
+                <div class="font-sans text-[10px] text-bark/50 mt-2 leading-relaxed">${p.description || 'Personalised recommendation'}</div>
+                <button class="mt-3 w-full font-sans text-[10px] py-2 rounded-full bg-terracotta text-cream font-600 tracking-wide hover:bg-terra-dark transition-colors">
+                  + Add to Cart
+                </button>
+              </div>
+            </div>
+          `).join('')
+        : '<p class="text-xs text-bark/50 col-span-full text-center py-4">Generating specific recommendations...</p>';
+
+      // open modal
+      document.getElementById('resultsModal').classList.remove('hidden');
+
+      // animate bars after modal opens
+      setTimeout(() => {
+        document.querySelectorAll('.bar-fill-el').forEach(el => {
+          el.style.width = el.style.getPropertyValue('--fill') || '0%';
+          el.style.transition = 'width 1.2s cubic-bezier(0.16,1,0.3,1)';
+        });
+      }, 100);
+    }
+
+    // Re-assign functions to window for onclick handlers (ensuring they stay global in the pure setup)
+    window.startCamera = startCamera;
+    window.capturePhoto = capturePhoto;
+    window.handleUpload = handleUpload;
+    window.retake = retake;
+    window.runAnalysis = runAnalysis;
+    window.selectAge = selectAge;
+    window.toggleConcern = toggleConcern;
+    window.selectEnv = selectEnv;
+    window.selectSkinTone = selectSkinTone;
+    window.closeResults = closeResults;
+    window.addToCart = addToCart;
+    window.filterProducts = filterProducts;
+
+    function closeResults() {
+      document.getElementById('resultsModal').classList.add('hidden');
+    }
+
+    function addToCart(id) {
+      const p = PRODUCTS.find(pr => pr.id === id);
+      if (!p) return;
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-dusk text-cream font-sans text-sm px-6 py-3.5 rounded-full shadow-2xl z-[9999] flex items-center gap-2 border border-terracotta/30';
+      toast.innerHTML = `<span class="text-terracotta">✓</span> ${p.name} added to cart`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2800);
+    }
+
+    // ---- Nav ----
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+    function closeMobileNav() { document.getElementById('mobileMenu').classList.add('hidden'); }
+
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('mainNav');
+      if (window.scrollY > 30) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    // Close modal on overlay click
+    document.getElementById('resultsModal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('resultsModal')) closeResults();
+    });
+
+    // ---- Scroll reveal ----
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+    }, { threshold:0.1, rootMargin:'0px 0px -50px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    // ---- Init products ----
+    renderProducts();
+
+    // ---- Smooth scroll ----
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const href = a.getAttribute('href');
+        if (href === '#') return;
+        e.preventDefault();
+        document.querySelector(href)?.scrollIntoView({ behavior:'smooth', block:'start' });
+      });
+    });
+  </script>
+</body>
+</html>
